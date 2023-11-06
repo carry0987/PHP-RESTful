@@ -63,7 +63,7 @@ class RESTful
         return $method ? in_array($method, self::$allowedHttpMethods) : self::$allowedHttpMethods;
     }
 
-    public static function verifyHttpMethod()
+    public static function verifyHttpMethod(bool $getMethod = false)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         if (!in_array($requestMethod, self::$allowedHttpMethods)) {
@@ -72,7 +72,7 @@ class RESTful
             exit();
         }
 
-        return true;
+        return $getMethod ? $requestMethod : true;
     }
 
     public static function setHttpVersion(string $httpVersion)
