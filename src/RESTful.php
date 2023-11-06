@@ -8,6 +8,7 @@ namespace carry0987\RESTful;
 class RESTful
 {
     private static $httpVersion = 'HTTP/1.1';
+    private static $allowedHttpMethods = ['GET', 'POST'];
     const HTTP_STATUS_CODES = [
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -52,12 +53,34 @@ class RESTful
         505 => 'HTTP Version Not Supported'
     ];
 
+    public static function setAllowedHttpMethod(array $allowedHttpMethods)
+    {
+        self::$allowedHttpMethods = $allowedHttpMethods;
+    }
+
+    public static function getAllowedHttpMethod(string $method = null)
+    {
+        return $method ? in_array($method, self::$allowedHttpMethods) : self::$allowedHttpMethods;
+    }
+
+    public static function verifyHttpMethod()
+    {
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if (!in_array($requestMethod, self::$allowedHttpMethods)) {
+            self::setHttpHeader('application/json', 405);
+            header('Allow:'.implode(',', self::$allowedHttpMethods));
+            exit();
+        }
+
+        return true;
+    }
+
     public static function setHttpVersion(string $httpVersion)
     {
         self::$httpVersion = $httpVersion;
     }
 
-    public static function setHttpHeaders(string $contentType, int $statusCode)
+    public static function setHttpHeader(string $contentType, int $statusCode)
     {
         if (empty($contentType)) {
             $contentType = 'application/json';

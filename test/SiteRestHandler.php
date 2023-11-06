@@ -18,7 +18,7 @@ class SiteRestHandler extends RESTful
     {
         $rawData = $this->siteService->getAllSite();
         $statusCode = empty($rawData) ? 404 : 200;
-        $this->setHttpHeaders($_SERVER['HTTP_ACCEPT'], $statusCode);
+        $this->setHttpHeader($_SERVER['HTTP_ACCEPT'], $statusCode);
 
         return $this->encodeResponse($rawData);
     }
@@ -27,7 +27,7 @@ class SiteRestHandler extends RESTful
     {
         $rawData = $this->siteService->getSite($id);
         $statusCode = empty($rawData) ? 404 : 200;
-        $this->setHttpHeaders($_SERVER['HTTP_ACCEPT'], $statusCode);
+        $this->setHttpHeader($_SERVER['HTTP_ACCEPT'], $statusCode);
 
         return $this->encodeResponse($rawData);
     }

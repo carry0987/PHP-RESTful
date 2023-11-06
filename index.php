@@ -14,19 +14,15 @@ use carry0987\Test\Site;
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $siteHandler = new SiteRestHandler(new Site());
 
-switch ($requestMethod) {
-    case 'GET':
+if (RESTful::verifyHttpMethod()) {
+    if (isset($_GET)) {
         $siteId = $_GET['id'] ?? null;
         if ($siteId) {
             $response = $siteHandler->getSite($siteId);
         } else {
             $response = $siteHandler->getAllSites();
         }
-        break;
-    default:
-        RESTful::setHttpHeaders($_SERVER['HTTP_ACCEPT'], 405);
-        header('Allow: GET PUT');
-        break;
+    }
 }
 
 exit($response ?? null);
