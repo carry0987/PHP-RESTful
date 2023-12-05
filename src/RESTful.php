@@ -100,7 +100,7 @@ class RESTful
         return self::HTTP_STATUS_CODES[$statusCode] ?? self::HTTP_STATUS_CODES[500];
     }
 
-    public static function encodeResponse($rawData)
+    public static function encodeResponse(mixed $rawData)
     {
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
 
@@ -126,7 +126,7 @@ class RESTful
         return $htmlResponse;
     }
 
-    public static function encodeJSON($responseData)
+    public static function encodeJSON(mixed $responseData)
     {
         $jsonResponse = json_encode($responseData);
 
